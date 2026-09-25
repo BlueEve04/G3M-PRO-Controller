@@ -1,0 +1,43 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
+    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+    <RootNamespace>G3M.Settings</RootNamespace>
+    <AssemblyName>G3M.Settings</AssemblyName>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <Platforms>x64</Platforms>
+    <PlatformTarget>x64</PlatformTarget>
+    <!-- 自包含的 Windows App SDK 要求显式指定目标架构，只写复数形式不够。 -->
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <UseWinUI>true</UseWinUI>
+    <EnableMsixTooling>true</EnableMsixTooling>
+
+    <!-- 非打包。必须自包含：本机的运行时框架包是 8000.946.1701.0，
+         而注册的 DDLM 最高只到 8000.921.1539.0，版本对不上。
+         非打包应用启动时要求 DDLM 与框架版本严格一致，缺失就会静默退出。
+         自包含把运行时随程序一起发布，彻底不依赖机器上装了什么。 -->
+    <WindowsPackageType>None</WindowsPackageType>
+    <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+
+    <!-- 裁剪与单文件都会破坏 XAML 资源加载。 -->
+    <PublishTrimmed>false</PublishTrimmed>
+    <PublishSingleFile>false</PublishSingleFile>
+    <PublishReadyToRun>false</PublishReadyToRun>
+  </PropertyGroup>
+
+  <!-- 刻意不引用 Microsoft.WindowsAppSDK 元包：它会把 Windows AI / ONNX /
+       DirectML / WebView2 / Widgets 全部拖进来，光 onnxruntime 加 DirectML
+       就有 39 MB，而这个程序一行都用不到。只取真正需要的三个组件。 -->
+  <ItemGroup>
+    <PackageReference Include="Microsoft.WindowsAppSDK.Base" Version="1.8.*" />
+    <PackageReference Include="Microsoft.WindowsAppSDK.Foundation" Version="1.8.*" />
+    <PackageReference Include="Microsoft.WindowsAppSDK.WinUI" Version="1.8.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\G3M.Core\G3M.Core.csproj" />
+  </ItemGroup>
+
+</Project>

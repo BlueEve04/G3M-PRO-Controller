@@ -1,0 +1,23 @@
+<Project>
+
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <Version>1.0.0</Version>
+    <Product>G3M Controller</Product>
+    <Company>G3M Controller</Company>
+    <Copyright>MIT License</Copyright>
+    <NeutralLanguage>zh-Hans</NeutralLanguage>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+  </PropertyGroup>
+
+  <!-- 默认目标框架不带 Windows 平台版本号：只有 WinUI 3 需要高版本 TFM，
+       其余项目用带版本号的 TFM 会白白拉进 24 MB 的 WinRT 投影程序集。
+       需要更高平台版本的项目在自己的 csproj 里显式覆盖。 -->
+  <PropertyGroup>
+    <TargetFramework Condition="'$(TargetFramework)' == ''">net10.0-windows</TargetFramework>
+  </PropertyGroup>
+
+</Project>

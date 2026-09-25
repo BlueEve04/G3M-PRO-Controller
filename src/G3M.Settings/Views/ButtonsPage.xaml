@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="G3M.Settings.Views.ButtonsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ScrollViewer Padding="24">
+        <StackPanel Spacing="16" MaxWidth="880" HorizontalAlignment="Left">
+
+            <Border
+                Padding="18"
+                Background="{ThemeResource LayerFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1"
+                CornerRadius="8">
+                <StackPanel Spacing="12">
+                    <StackPanel Spacing="2">
+                        <TextBlock Text="按键功能" FontSize="16" FontWeight="SemiBold" />
+                        <TextBlock
+                            x:Name="Hint"
+                            Text="读取鼠标当前的按键分配"
+                            Opacity="0.7"
+                            FontSize="12" />
+                    </StackPanel>
+
+                    <StackPanel x:Name="SlotRows" Spacing="8" />
+                </StackPanel>
+            </Border>
+
+            <Expander x:Name="EmptySlotsExpander" HorizontalAlignment="Stretch">
+                <Expander.Header>
+                    <TextBlock x:Name="EmptySlotsHeader" Text="未分配的槽位" />
+                </Expander.Header>
+                <StackPanel x:Name="EmptySlotRows" Spacing="6" Padding="0,8,0,0" />
+            </Expander>
+
+            <Border
+                Padding="18"
+                Background="{ThemeResource LayerFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1"
+                CornerRadius="8">
+                <StackPanel Spacing="10">
+                    <TextBlock Text="为什么不能改" FontSize="16" FontWeight="SemiBold" />
+                    <TextBlock
+                        TextWrapping="Wrap"
+                        Opacity="0.85"
+                        FontSize="13"
+                        Text="按键映射的读取已经完全可用，但写入在这台设备的固件上走不通。实测结论如下：" />
+                    <TextBlock
+                        TextWrapping="Wrap"
+                        Opacity="0.85"
+                        FontSize="13"
+                        Text="· 命令 0x0B（易失写入）：固件直接拒绝，返回命令错误。&#x0a;· 命令 0x09（持久写入，原 macOS 项目使用的通道）：设备接受且响应格式与真实写入一致，但映射表内容毫无变化。&#x0a;· 命令 0x08：同样被接受，同样无效。&#x0a;· 在同一会话里追加一次配置写入（0x06）试图触发整体提交：仍然无效。" />
+                    <TextBlock
+                        TextWrapping="Wrap"
+                        Opacity="0.85"
+                        FontSize="13"
+                        Text="对照实验排除了误判：已知可用的配置写入命令 0x06 同样会回显旧数据，所以「回显」本身不能说明命令是读还是写。0x08 与 0x09 表现得像真正的写命令，只是对映射表不起作用。" />
+                    <TextBlock
+                        TextWrapping="Wrap"
+                        Opacity="0.85"
+                        FontSize="13"
+                        Text="参考项目 g3mpro-macos 的 README 把「退出映射恢复」列为真机发布前仍需检查的项目，该路径很可能并未在这台设备上验证过。" />
+                    <TextBlock
+                        TextWrapping="Wrap"
+                        Opacity="0.85"
+                        FontSize="13"
+                        Text="DPI 档位、回报率、直线修正、波纹修正、按键防抖、静默高度这几项的写入都已在真机上验证通过，可以正常修改。" />
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </ScrollViewer>
+</Page>

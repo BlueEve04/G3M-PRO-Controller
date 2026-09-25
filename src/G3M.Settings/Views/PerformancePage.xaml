@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="G3M.Settings.Views.PerformancePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ScrollViewer Padding="24">
+        <StackPanel Spacing="16" MaxWidth="880" HorizontalAlignment="Left">
+
+            <!-- DPI 档位 -->
+            <Border
+                Padding="18"
+                Background="{ThemeResource LayerFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1"
+                CornerRadius="8">
+                <StackPanel Spacing="12">
+                    <StackPanel Spacing="2">
+                        <TextBlock Text="DPI 档位" FontSize="16" FontWeight="SemiBold" />
+                        <TextBlock
+                            x:Name="DpiHint"
+                            Text="勾选启用档位，输入数值后点应用写入板载配置"
+                            Opacity="0.7"
+                            FontSize="12" />
+                    </StackPanel>
+
+                    <StackPanel x:Name="StageRows" Spacing="8" />
+
+                    <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Right">
+                        <Button x:Name="ResetDpiButton" Click="OnResetDpiClicked" Content="放弃修改" />
+                        <Button
+                            x:Name="ApplyDpiButton"
+                            Click="OnApplyDpiClicked"
+                            Content="应用 DPI 配置"
+                            Style="{StaticResource AccentButtonStyle}" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- 回报率 -->
+            <Border
+                Padding="18"
+                Background="{ThemeResource LayerFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1"
+                CornerRadius="8">
+                <StackPanel Spacing="12">
+                    <StackPanel Spacing="2">
+                        <TextBlock Text="回报率" FontSize="16" FontWeight="SemiBold" />
+                        <TextBlock Text="选择后立即生效并写入板载配置" Opacity="0.7" FontSize="12" />
+                    </StackPanel>
+
+                    <StackPanel x:Name="RateButtons" Orientation="Horizontal" Spacing="8" />
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </ScrollViewer>
+</Page>

@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/G3M.Core/G3M.Core.csproj" />
+    <Project Path="src/G3M.Settings/G3M.Settings.csproj" />
+    <Project Path="src/G3M.Tray/G3M.Tray.csproj" />
+  </Folder>
+  <Folder Name="/tools/">
+    <Project Path="tools/G3M.Probe/G3M.Probe.csproj" />
+  </Folder>
+</Solution>

@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!-- 刻意不带上 Windows 平台版本号。带版本号的 TFM 会通过
+         Microsoft.Windows.SDK.NET.Ref 拉进 24 MB 的 WinRT 投影程序集，
+         而这一层只做 P/Invoke，一行 WinRT 都不用。
+         较高平台版本的消费者（WinUI 设置程序）依然可以引用它。 -->
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <RootNamespace>G3M.Core</RootNamespace>
+    <AssemblyName>G3M.Core</AssemblyName>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+  </PropertyGroup>
+
+</Project>

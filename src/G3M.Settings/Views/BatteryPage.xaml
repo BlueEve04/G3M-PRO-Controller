@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="G3M.Settings.Views.BatteryPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:G3M.Settings.Controls">
+
+    <ScrollViewer Padding="24">
+        <StackPanel Spacing="16" MaxWidth="920" HorizontalAlignment="Left">
+
+            <!-- 曲线 -->
+            <Border
+                Padding="18"
+                Background="{ThemeResource LayerFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1"
+                CornerRadius="8">
+                <StackPanel Spacing="12">
+                    <Grid>
+                        <TextBlock
+                            Text="电量历史"
+                            FontSize="16"
+                            FontWeight="SemiBold"
+                            VerticalAlignment="Center" />
+                        <StackPanel
+                            Orientation="Horizontal"
+                            Spacing="8"
+                            HorizontalAlignment="Right">
+                            <Button x:Name="DayButton" Click="OnRangeClicked" Content="最近 24 小时" Tag="day" />
+                            <Button x:Name="WeekButton" Click="OnRangeClicked" Content="最近 7 天" Tag="week" />
+                            <Button x:Name="ReloadButton" Click="OnReloadClicked" Content="重新载入" />
+                        </StackPanel>
+                    </Grid>
+
+                    <controls:BatteryChart x:Name="Chart" Height="240" />
+
+                    <TextBlock
+                        x:Name="ChartHint"
+                        Text=""
+                        Opacity="0.6"
+                        FontSize="12"
+                        TextWrapping="Wrap" />
+                </StackPanel>
+            </Border>
+
+            <!-- 指标 -->
+            <Border
+                Padding="18"
+                Background="{ThemeResource LayerFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1"
+                CornerRadius="8">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="续航指标" FontSize="16" FontWeight="SemiBold" />
+
+                    <Grid ColumnSpacing="24" RowSpacing="8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="180" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="最后有效采样" Opacity="0.7" />
+                        <TextBlock x:Name="LastSampleText" Grid.Row="0" Grid.Column="1" Text="—" />
+
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="当前状态" Opacity="0.7" />
+                        <TextBlock x:Name="CurrentStateText" Grid.Row="1" Grid.Column="1" Text="—" />
+
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="本轮充电已持续" Opacity="0.7" />
+                        <TextBlock x:Name="CurrentChargeText" Grid.Row="2" Grid.Column="1" Text="—" />
+
+                        <TextBlock Grid.Row="3" Grid.Column="0" Text="最近一次充电时长" Opacity="0.7" />
+                        <TextBlock x:Name="LastChargeText" Grid.Row="3" Grid.Column="1" Text="—" />
+
+                        <TextBlock Grid.Row="4" Grid.Column="0" Text="最近一次 100%→20%" Opacity="0.7" />
+                        <TextBlock x:Name="LastDischargeText" Grid.Row="4" Grid.Column="1" Text="—" />
+
+                        <TextBlock Grid.Row="5" Grid.Column="0" Text="预计剩余使用时间" Opacity="0.7" />
+                        <TextBlock x:Name="RemainingText" Grid.Row="5" Grid.Column="1" Text="—" TextWrapping="Wrap" />
+                    </Grid>
+
+                    <TextBlock
+                        Text="估算基于本程序实际运行时记录的数据；程序没运行的时段无法补全。"
+                        Opacity="0.6"
+                        FontSize="12"
+                        TextWrapping="Wrap" />
+                </StackPanel>
+            </Border>
+
+            <!-- 事件 -->
+            <Border
+                Padding="18"
+                Background="{ThemeResource LayerFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1"
+                CornerRadius="8">
+                <StackPanel Spacing="10">
+                    <TextBlock Text="断连与异常" FontSize="16" FontWeight="SemiBold" />
+                    <StackPanel x:Name="IncidentList" Spacing="6" />
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </ScrollViewer>
+</Page>

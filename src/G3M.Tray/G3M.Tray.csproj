@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <!-- 同上：托盘只用 WinForms 和 P/Invoke，不需要 WinRT 投影。 -->
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <AssemblyName>G3M.Tray</AssemblyName>
+    <RootNamespace>G3M.Tray</RootNamespace>
+
+    <!-- 这些属性会让 SDK 生成 ApplicationConfiguration.Initialize()，
+         它只做样式与 DPI 初始化，不会创建任何窗口。 -->
+    <ApplicationVisualStyles>true</ApplicationVisualStyles>
+    <ApplicationUseCompatibleTextRendering>false</ApplicationUseCompatibleTextRendering>
+    <ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
+
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <SatelliteResourceLanguages>zh-Hans;en</SatelliteResourceLanguages>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\G3M.Core\G3M.Core.csproj" />
+  </ItemGroup>
+
+</Project>

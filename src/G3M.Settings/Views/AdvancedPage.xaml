@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="G3M.Settings.Views.AdvancedPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ScrollViewer Padding="24">
+        <StackPanel Spacing="16" MaxWidth="880" HorizontalAlignment="Left">
+
+            <Border
+                Padding="18"
+                Background="{ThemeResource LayerFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1"
+                CornerRadius="8">
+                <StackPanel Spacing="16">
+                    <StackPanel Spacing="2">
+                        <TextBlock Text="传感器与按键响应" FontSize="16" FontWeight="SemiBold" />
+                        <TextBlock
+                            x:Name="Hint"
+                            Text="修改后写入当前板载配置，写入前会自动备份"
+                            Opacity="0.7"
+                            FontSize="12" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Spacing="32">
+                        <ToggleSwitch
+                            x:Name="LineCorrectionSwitch"
+                            Header="直线修正"
+                            OnContent="开"
+                            OffContent="关" />
+                        <ToggleSwitch
+                            x:Name="WaveCorrectionSwitch"
+                            Header="波纹修正"
+                            OnContent="开"
+                            OffContent="关" />
+                    </StackPanel>
+
+                    <Grid ColumnSpacing="24" RowSpacing="14">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Text="按键防抖"
+                            VerticalAlignment="Center" />
+                        <ComboBox
+                            x:Name="DebounceCombo"
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            MinWidth="140" />
+
+                        <TextBlock
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Text="静默高度"
+                            VerticalAlignment="Center" />
+                        <ComboBox
+                            x:Name="LiftCombo"
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            MinWidth="140" />
+                    </Grid>
+
+                    <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Right">
+                        <Button x:Name="ResetButton" Click="OnResetClicked" Content="放弃修改" />
+                        <Button
+                            x:Name="ApplyButton"
+                            Click="OnApplyClicked"
+                            Content="应用高级设置"
+                            Style="{StaticResource AccentButtonStyle}" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- 危险操作 -->
+            <Border
+                Padding="18"
+                Background="{ThemeResource LayerFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1"
+                CornerRadius="8">
+                <StackPanel Spacing="12">
+                    <StackPanel Spacing="2">
+                        <TextBlock Text="备份与还原" FontSize="16" FontWeight="SemiBold" />
+                        <TextBlock
+                            x:Name="BackupHint"
+                            Text="每次写入前都会自动备份当前配置与按键映射"
+                            Opacity="0.7"
+                            FontSize="12" />
+                    </StackPanel>
+
+                    <Button
+                        x:Name="RestoreButton"
+                        Click="OnRestoreClicked"
+                        Content="从最近一次备份还原" />
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </ScrollViewer>
+</Page>
