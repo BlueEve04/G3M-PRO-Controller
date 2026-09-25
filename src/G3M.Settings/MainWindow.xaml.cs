@@ -1,13 +1,13 @@
+using G3M.Core.Storage;
 using G3M.Settings.Services;
 using G3M.Settings.Views;
-using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 
 namespace G3M.Settings;
 
-/// <summary>设置程序主窗口：一个状态条加一个导航框架。</summary>
+/// <summary>设置程序主窗口：一个导航框架加一条底部状态栏。</summary>
 public sealed partial class MainWindow : Window
 {
     private bool _initialized;
@@ -17,7 +17,9 @@ public sealed partial class MainWindow : Window
         InitializeComponent();
 
         Title = "G3M Controller";
-        ConfigureBackdrop();
+
+        // 背景材质由用户设置在「设置」页里选，这里按存档应用一次。
+        ApplyBackdrop(App.Settings.Backdrop);
 
         Closed += (_, _) => App.Shutdown();
 
@@ -29,6 +31,17 @@ public sealed partial class MainWindow : Window
         Navigation.SelectedItem = Navigation.MenuItems[0];
         _initialized = true;
         NavigateTo("overview");
+    }
+
+    /// <summary>
+    /// 应用背景材质，并记录实际生效的那一种。请求的材质若不被系统支持会退回普通灰色，
+    /// 设置页据此显示真实状态。
+    /// </summary>
+    public BackdropKind ApplyBackdrop(BackdropKind requested)
+    {
+        BackdropKind effective = BackdropService.Apply(this, RootGrid, requested);
+        App.EffectiveBackdrop = effective;
+        return effective;
     }
 
     private void OnFirstActivated(object sender, WindowActivatedEventArgs args)
@@ -44,27 +57,23 @@ public sealed partial class MainWindow : Window
         _ = App.Context.RefreshAsync();
     }
 
-    private void ConfigureBackdrop()
-    {
-        // 云母在 Win11 上可用；不可用时依次退回亚克力与纯色。
-        if (MicaController.IsSupported())
-        {
-            SystemBackdrop = new MicaBackdrop { Kind = MicaKind.BaseAlt };
-        }
-        else if (DesktopAcrylicController.IsSupported())
-        {
-            SystemBackdrop = new DesktopAcrylicBackdrop();
-        }
-    }
-
     private void OnSelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
     {
-        if (!_initialized || args.SelectedItem is not NavigationViewItem item || item.Tag is not string tag)
+        if (!_initialized)
         {
             return;
         }
 
-        NavigateTo(tag);
+        if (args.IsSettingsSelected)
+        {
+            NavigateTo("settings");
+            return;
+        }
+
+        if (args.SelectedItem is NavigationViewItem { Tag: string tag })
+        {
+            NavigateTo(tag);
+        }
     }
 
     /// <summary>导航到指定页面。托盘通过命令行传入的页面名也走这里。</summary>
@@ -76,12 +85,19 @@ public sealed partial class MainWindow : Window
             "advanced" => typeof(AdvancedPage),
             "buttons" => typeof(ButtonsPage),
             "battery" => typeof(BatteryPage),
+            "settings" => typeof(SettingsPage),
             _ => typeof(OverviewPage),
         };
 
         if (ContentFrame.CurrentSourcePageType != pageType)
         {
             ContentFrame.Navigate(pageType);
+        }
+
+        if (tag == "settings")
+        {
+            Navigation.SelectedItem = Navigation.SettingsItem;
+            return;
         }
 
         foreach (object menuItem in Navigation.MenuItems)

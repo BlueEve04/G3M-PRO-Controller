@@ -26,7 +26,7 @@
             Grid.Row="0"
             Background="Transparent"
             IsBackButtonVisible="Collapsed"
-            IsSettingsVisible="False"
+            IsSettingsVisible="True"
             PaneDisplayMode="Left"
             OpenPaneLength="188"
             SelectionChanged="OnSelectionChanged">

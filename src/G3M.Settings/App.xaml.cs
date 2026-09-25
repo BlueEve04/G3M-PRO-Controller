@@ -1,3 +1,4 @@
+using G3M.Core.Storage;
 using G3M.Settings.Services;
 using Microsoft.UI.Xaml;
 
@@ -13,8 +14,26 @@ public partial class App : Application
     /// <summary>全局共享的设备状态与操作上下文。</summary>
     public static SettingsContext Context { get; } = new();
 
+    /// <summary>界面偏好。在 <see cref="OnLaunched"/> 里从磁盘载入。</summary>
+    public static AppSettings Settings { get; private set; } = new();
+
+    /// <summary>
+    /// 当前实际生效的背景材质。用户期望的材质若不被系统支持会退回普通灰色，
+    /// 界面据此显示真实状态，而不是显示一个并未生效的选择。
+    /// </summary>
+    /// <remarks>
+    /// 由 <see cref="MainWindow.ApplyBackdrop"/> 写入。不在这里提供应用入口是因为
+    /// 主窗口构造函数执行期间 <see cref="MainWindow"/> 还是 null，走静态入口会拿不到窗口。
+    /// </remarks>
+    public static BackdropKind EffectiveBackdrop { get; internal set; } = BackdropKind.Mica;
+
+    /// <summary>主窗口。窗口尚未创建时为 null。</summary>
+    public static MainWindow? MainWindow => (Current as App)?._window;
+
     protected override void OnLaunched(LaunchActivatedEventArgs args)
     {
+        Settings = AppSettings.Load();
+
         _window = new MainWindow();
         _window.Activate();
 

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="G3M.Settings.Views.SettingsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ScrollViewer Padding="24">
+        <StackPanel Spacing="16" MaxWidth="880" HorizontalAlignment="Left">
+
+            <!-- 外观 -->
+            <Border
+                Padding="18"
+                Background="{ThemeResource LayerFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1"
+                CornerRadius="8">
+                <StackPanel Spacing="12">
+                    <StackPanel Spacing="2">
+                        <TextBlock Text="外观" FontSize="16" FontWeight="SemiBold" />
+                        <TextBlock
+                            Text="窗口背景材质，选择后立即生效并记住"
+                            Opacity="0.7"
+                            FontSize="12" />
+                    </StackPanel>
+
+                    <RadioButtons x:Name="BackdropSelector" SelectionChanged="OnBackdropChanged">
+                        <RadioButton x:Name="MicaOption" Content="云母" Tag="mica" />
+                        <RadioButton x:Name="AcrylicOption" Content="亚克力" Tag="acrylic" />
+                        <RadioButton x:Name="SolidOption" Content="普通灰色" Tag="solid" />
+                    </RadioButtons>
+
+                    <TextBlock
+                        x:Name="BackdropHint"
+                        Opacity="0.7"
+                        FontSize="12"
+                        TextWrapping="Wrap" />
+                </StackPanel>
+            </Border>
+
+            <!-- 数据位置 -->
+            <Border
+                Padding="18"
+                Background="{ThemeResource LayerFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1"
+                CornerRadius="8">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="数据位置" FontSize="16" FontWeight="SemiBold" />
+
+                    <Grid ColumnSpacing="16" RowSpacing="8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="110" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="配置备份" Opacity="0.7" />
+                        <TextBlock
+                            x:Name="BackupPathText"
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            FontFamily="Consolas"
+                            FontSize="12"
+                            TextWrapping="Wrap" />
+
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="电量历史" Opacity="0.7" />
+                        <TextBlock
+                            x:Name="HistoryPathText"
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            FontFamily="Consolas"
+                            FontSize="12"
+                            TextWrapping="Wrap" />
+
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="界面设置" Opacity="0.7" />
+                        <TextBlock
+                            x:Name="SettingsPathText"
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            FontFamily="Consolas"
+                            FontSize="12"
+                            TextWrapping="Wrap" />
+                    </Grid>
+
+                    <Button Click="OnOpenFolderClicked" Content="打开数据目录" />
+                </StackPanel>
+            </Border>
+
+            <!-- 关于 -->
+            <Border
+                Padding="18"
+                Background="{ThemeResource LayerFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1"
+                CornerRadius="8">
+                <StackPanel Spacing="8">
+                    <TextBlock Text="关于" FontSize="16" FontWeight="SemiBold" />
+                    <TextBlock x:Name="VersionText" Opacity="0.85" />
+                    <TextBlock
+                        Text="设置只影响本程序的窗口外观，不会写入鼠标。"
+                        Opacity="0.7"
+                        FontSize="12"
+                        TextWrapping="Wrap" />
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </ScrollViewer>
+</Page>
