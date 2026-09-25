@@ -17,13 +17,38 @@
         </Grid.Resources>
 
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
+        <!-- 自绘标题栏。内容延伸进标题栏之后系统不再画它，
+             底下的材质可以直接透上来，按钮颜色也能精确跟随主题。 -->
+        <Grid
+            x:Name="AppTitleBar"
+            Grid.Row="0"
+            Height="36"
+            Background="Transparent">
+            <StackPanel
+                Margin="16,0,0,0"
+                Orientation="Horizontal"
+                Spacing="10"
+                VerticalAlignment="Center">
+                <FontIcon
+                    FontSize="14"
+                    Glyph="&#xE7C9;"
+                    Opacity="0.85" />
+                <TextBlock
+                    x:Name="TitleText"
+                    Text="G3M Controller"
+                    FontSize="12"
+                    Opacity="0.9" />
+            </StackPanel>
+        </Grid>
+
         <NavigationView
             x:Name="Navigation"
-            Grid.Row="0"
+            Grid.Row="1"
             Background="Transparent"
             IsBackButtonVisible="Collapsed"
             IsSettingsVisible="True"
@@ -44,7 +69,7 @@
 
         <!-- 状态条固定在底部 -->
         <Border
-            Grid.Row="1"
+            Grid.Row="2"
             Padding="16,10"
             Background="{ThemeResource LayerFillColorDefaultBrush}"
             BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"

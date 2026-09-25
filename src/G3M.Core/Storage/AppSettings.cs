@@ -16,6 +16,19 @@ public enum BackdropKind
     Solid = 2,
 }
 
+/// <summary>界面深浅色主题。</summary>
+public enum AppTheme
+{
+    /// <summary>跟随 Windows 的浅色/深色设置。</summary>
+    System = 0,
+
+    /// <summary>始终使用浅色。</summary>
+    Light = 1,
+
+    /// <summary>始终使用深色。</summary>
+    Dark = 2,
+}
+
 /// <summary>应用程序自身的界面偏好，与鼠标配置无关。</summary>
 public sealed class AppSettings
 {
@@ -27,6 +40,9 @@ public sealed class AppSettings
 
     /// <summary>窗口背景材质，默认云母。</summary>
     public BackdropKind Backdrop { get; set; } = BackdropKind.Mica;
+
+    /// <summary>深浅色主题，默认跟随系统。标题栏与窗口内容一起跟随。</summary>
+    public AppTheme Theme { get; set; } = AppTheme.System;
 
     /// <summary>设置文件路径：<c>%LOCALAPPDATA%\G3M Controller\settings.json</c>。</summary>
     public static string FilePath => Path.Combine(AppPaths.RootDirectory, "settings.json");
@@ -47,7 +63,7 @@ public sealed class AppSettings
             string json = File.ReadAllText(FilePath);
             AppSettings? settings = JsonSerializer.Deserialize<AppSettings>(json, Options);
 
-            if (settings is null || !Enum.IsDefined(settings.Backdrop))
+            if (settings is null || !Enum.IsDefined(settings.Backdrop) || !Enum.IsDefined(settings.Theme))
             {
                 return new AppSettings();
             }

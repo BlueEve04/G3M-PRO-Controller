@@ -7,6 +7,36 @@
     <ScrollViewer Padding="24">
         <StackPanel Spacing="16" MaxWidth="880" HorizontalAlignment="Left">
 
+            <!-- 主题 -->
+            <Border
+                Padding="18"
+                Background="{ThemeResource LayerFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1"
+                CornerRadius="8">
+                <StackPanel Spacing="12">
+                    <StackPanel Spacing="2">
+                        <TextBlock Text="主题" FontSize="16" FontWeight="SemiBold" />
+                        <TextBlock
+                            Text="窗口内容与标题栏一起跟随，选择后立即生效并记住"
+                            Opacity="0.7"
+                            FontSize="12" />
+                    </StackPanel>
+
+                    <RadioButtons x:Name="ThemeSelector" SelectionChanged="OnThemeChanged">
+                        <RadioButton Content="跟随系统" Tag="system" />
+                        <RadioButton Content="浅色" Tag="light" />
+                        <RadioButton Content="深色" Tag="dark" />
+                    </RadioButtons>
+
+                    <TextBlock
+                        x:Name="ThemeHint"
+                        Opacity="0.7"
+                        FontSize="12"
+                        TextWrapping="Wrap" />
+                </StackPanel>
+            </Border>
+
             <!-- 外观 -->
             <Border
                 Padding="18"
@@ -16,9 +46,9 @@
                 CornerRadius="8">
                 <StackPanel Spacing="12">
                     <StackPanel Spacing="2">
-                        <TextBlock Text="外观" FontSize="16" FontWeight="SemiBold" />
+                        <TextBlock Text="背景材质" FontSize="16" FontWeight="SemiBold" />
                         <TextBlock
-                            Text="窗口背景材质，选择后立即生效并记住"
+                            Text="选择后立即生效并记住"
                             Opacity="0.7"
                             FontSize="12" />
                     </StackPanel>

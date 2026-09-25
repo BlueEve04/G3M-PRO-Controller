@@ -24,6 +24,13 @@ public sealed partial class SettingsPage : Page
         _suppressSelectionChanged = true;
         try
         {
+            ThemeSelector.SelectedIndex = App.Settings.Theme switch
+            {
+                AppTheme.Light => 1,
+                AppTheme.Dark => 2,
+                _ => 0,
+            };
+
             // 系统不支持的材质直接置灰，而不是让用户选了之后没反应。
             MicaOption.IsEnabled = BackdropService.IsSupported(BackdropKind.Mica);
             AcrylicOption.IsEnabled = BackdropService.IsSupported(BackdropKind.Acrylic);
@@ -43,6 +50,7 @@ public sealed partial class SettingsPage : Page
             _suppressSelectionChanged = false;
         }
 
+        UpdateThemeHint();
         UpdateHint();
 
         BackupPathText.Text = AppPaths.BackupDirectory;
@@ -51,6 +59,36 @@ public sealed partial class SettingsPage : Page
 
         Version version = Assembly.GetExecutingAssembly().GetName().Version ?? new Version(1, 0, 0);
         VersionText.Text = $"G3M Controller {version.ToString(3)}　·　.NET {Environment.Version.ToString(2)}";
+    }
+
+    private void OnThemeChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (_suppressSelectionChanged)
+        {
+            return;
+        }
+
+        AppTheme theme = ThemeSelector.SelectedIndex switch
+        {
+            1 => AppTheme.Light,
+            2 => AppTheme.Dark,
+            _ => AppTheme.System,
+        };
+
+        App.MainWindow?.ApplyTheme(theme);
+        App.Settings.Theme = theme;
+        App.Settings.Save();
+        UpdateThemeHint();
+    }
+
+    private void UpdateThemeHint()
+    {
+        ThemeHint.Text = App.Settings.Theme switch
+        {
+            AppTheme.Light => "始终使用浅色，不随 Windows 设置变化。",
+            AppTheme.Dark => "始终使用深色，不随 Windows 设置变化。",
+            _ => "跟随 Windows 的浅色/深色设置，系统主题变化时窗口与标题栏会一起切换。",
+        };
     }
 
     private async void OnBackdropChanged(object sender, SelectionChangedEventArgs e)

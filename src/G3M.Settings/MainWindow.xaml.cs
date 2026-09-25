@@ -7,9 +7,10 @@ using Microsoft.UI.Xaml.Media;
 
 namespace G3M.Settings;
 
-/// <summary>设置程序主窗口：一个导航框架加一条底部状态栏。</summary>
+/// <summary>设置程序主窗口：自绘标题栏、导航框架、底部状态栏。</summary>
 public sealed partial class MainWindow : Window
 {
+    private readonly ThemeService _themeService;
     private bool _initialized;
 
     public MainWindow()
@@ -18,10 +19,22 @@ public sealed partial class MainWindow : Window
 
         Title = "G3M Controller";
 
+        // 内容延伸进标题栏：材质能透上来，标题栏按钮颜色也能精确跟随主题。
+        ExtendsContentIntoTitleBar = true;
+        SetTitleBar(AppTitleBar);
+        AppTitleBar.Height = ResolveCaptionHeight();
+
+        _themeService = new ThemeService(RootGrid, AppWindow.TitleBar);
+        _themeService.Apply(App.Settings.Theme);
+
         // 背景材质由用户设置在「设置」页里选，这里按存档应用一次。
         ApplyBackdrop(App.Settings.Backdrop);
 
-        Closed += (_, _) => App.Shutdown();
+        Closed += (_, _) =>
+        {
+            _themeService.Dispose();
+            App.Shutdown();
+        };
 
         // 窗口尺寸必须在窗口真正显示之后设置，构造阶段调用不会生效。
         Activated += OnFirstActivated;
@@ -42,6 +55,33 @@ public sealed partial class MainWindow : Window
         BackdropKind effective = BackdropService.Apply(this, RootGrid, requested);
         App.EffectiveBackdrop = effective;
         return effective;
+    }
+
+    /// <summary>应用深浅色主题，标题栏、内容与背景材质一起跟随。</summary>
+    public void ApplyTheme(AppTheme theme)
+    {
+        _themeService.Apply(theme);
+
+        // 切换主题后必须重建背景材质：云母/亚克力的深浅色在实例创建时就确定了，
+        // 沿用旧实例的话浅色主题下背景会仍然是深色，与内容对不上。
+        ApplyBackdrop(App.Settings.Backdrop);
+    }
+
+    /// <summary>
+    /// 取系统标题栏高度，让自绘标题栏与系统观感一致（会随 DPI 与用户设置变化）。
+    /// 取不到时退回 36。
+    /// </summary>
+    private double ResolveCaptionHeight()
+    {
+        try
+        {
+            double height = AppWindow.TitleBar.Height;
+            return height > 0 ? height : 36;
+        }
+        catch (Exception exception) when (exception is NotSupportedException or ArgumentException)
+        {
+            return 36;
+        }
     }
 
     private void OnFirstActivated(object sender, WindowActivatedEventArgs args)
